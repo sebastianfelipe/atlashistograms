@@ -464,6 +464,15 @@ void Ntuple::Init(TTree *tree)
    this->__layerHistos[5] = new TH1F("HAD2", "HAD2",  50,-2000,3000);
    this->__layerHistos[6] = new TH1F("HAD3", "HAD3",  50,-3000,3000);
 
+   cout << "Init()" << endl;
+   cout << __layerHistos[0] << endl;
+   cout << __layerHistos[1] << endl;
+   cout << __layerHistos[2] << endl;
+   cout << __layerHistos[3] << endl;
+   cout << __layerHistos[4] << endl;
+   cout << __layerHistos[5] << endl;
+   cout << __layerHistos[6] << endl;
+   cout << "OK" << endl;
    Notify();
 }
 
@@ -523,25 +532,28 @@ void   Ntuple::GenRingLayerHistos()
       fChain->GetEntry(iEvent);
       //cout << "Gotten :D" << endl;
       //cout << endl << endl << endl;
-      cout << "Rings: " << this->trig_L2_calo_rings->size() << endl;
-      //cout << endl << endl << endl;
-      nClusters = (Int_t) this->trig_L2_calo_rings->size()/100;
-
-      for (iLayer=0;iLayer<nLayers;iLayer++)
+      if (this->trig_L2_calo_rings->size() > 0)
       {
-         //cout << "iLayer " << iLayer << " nLayers " << nLayers << endl;
-         //cout << "The size is: " << trig_L2_calo_rings->size() << endl;
+         cout << "Rings: " << this->trig_L2_calo_rings->size() << endl;
+         //cout << endl << endl << endl;
+         //nClusters = (Int_t) this->trig_L2_calo_rings->size()/100;
 
-         for (iRing=ringLayers[iLayer][0];(iRing<ringLayers[iLayer][1]) && (this->trig_L2_calo_rings->size() > 0);iRing++)
+         for (iLayer=0;iLayer<nLayers;iLayer++)
          {
-            //cout << "iRing " << iRing << " nRings " << nRings << endl;
-            //cout << trig_L2_calo_rings->size() << endl;
-            //cout << trig_L2_calo_rings->at(iRing) << endl;
-            //for (iCluster=0;iCluster<nClusters;iCluster++)
-            //{
-             //  this->__layerHistos[iLayer]->Fill(this->trig_L2_calo_rings->at(iCluster*100 + iRing));
-            //}
-            this->__layerHistos[iLayer]->Fill(this->trig_L2_calo_rings->at(iRing));
+            //cout << "iLayer " << iLayer << " nLayers " << nLayers << endl;
+            //cout << "The size is: " << trig_L2_calo_rings->size() << endl;
+
+            for (iRing=ringLayers[iLayer][0];(iRing<ringLayers[iLayer][1]);iRing++)
+            {
+               //cout << "iRing " << iRing << " nRings " << nRings << endl;
+               //cout << trig_L2_calo_rings->size() << endl;
+               //cout << trig_L2_calo_rings->at(iRing) << endl;
+               //for (iCluster=0;iCluster<nClusters;iCluster++)
+               //{
+                //  this->__layerHistos[iLayer]->Fill(this->trig_L2_calo_rings->at(iCluster*100 + iRing));
+               //}
+               this->__layerHistos[iLayer]->Fill(this->trig_L2_calo_rings->at(iRing));
+            }
          }
       }
       // if (Cut(ientry) < 0) continue;
